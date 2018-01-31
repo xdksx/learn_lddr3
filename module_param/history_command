@@ -1,0 +1,326 @@
+    1  uname-r
+    2  uname -r
+    3  cd /usr/src
+    4  ls
+    5  apt-cache search linux-source
+    6  apt-get update
+    7  sudo apt-get update
+    8  apt-cache search linux-source
+    9  sudo gedit /etc/apt/sources.list
+   10  sudo apt-get update
+   11  apt-cache search linux-source
+   12  apt-get install linux-source-2.6.32
+   13  sudo apt-get install linux-source-2.6.32
+   14  clear
+   15  ls
+   16  tar jxvf linux-source-2.6.32.tar.bz2 
+   17  cd linux-headers-2.6.32-21
+   18  cd ..
+   19  ls
+   20  sudo tar jxvf linux-source-2.6.32.tar.bz2 
+   21  make oldconfig
+   22  cd linux-source-2.6.32/
+   23  make oldconfig
+   24  sudo make oldconfig
+   25  sudo make
+   26  exit
+   27  ls
+   28  sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+   29  exit
+   30  sudo insmod ./hello.ko 
+   31  sudo rmmod hello
+   32  cd /usr/
+   33  ls
+   34  cd src
+   35  cd linux-source-2.6.32/
+   36  make
+   37  make bzImage
+   38  sudo make bzImage
+   39  cd 
+   40  cd driver_workspace
+   41  mkdir driver_workspace
+   42  cd driver_workspace/
+   43  ls
+   44  clear
+   45  vim hello.c
+   46  sudo apt-get install vim 
+   47  vim hello.c
+   48  vim Makefile
+   49  make
+   50  vim Makefile
+   51  make
+   52  vim Makefile
+   53  make
+   54  vim Makefile
+   55  make
+   56  vim Makefile
+   57  make
+   58  vim Makefile
+   59  make
+   60  vim Makefile
+   61  uname --r
+   62  make
+   63  vim Makefile
+   64  ls
+   65  make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules-install
+   66  make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules_install
+   67  sudo make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules_install
+   68  ls
+   69  sudo insmod ./hello.ko 
+   70  lsmod
+   71  rmmod hello 
+   72  sudo rmmod hello 
+   73  cat /var/log/messages 
+   74  cat /var/log/messages | grep goodbye
+   75  cat /var/log/messages | grep hello
+   76  cat /var/log/messages | grep hel
+   77  sudo insmod ./hello.ko >cc
+   78  ls
+   79  cat
+   80  cat cc
+   81  xterm
+   82  sudo rmmod hello 
+   83  xterm
+   84  cat hello.c
+   85  vim hello.c
+   86  make
+   87  sudo make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules_install
+   88  sudo insmod ./hello.ko
+   89  echo 'sudo make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules_install' >command
+   90  ls
+   91  rm cc
+   92  cat command 
+   93  exit
+   94  uname -r
+   95  cd /lib/
+   96  cd modules
+   97  ls
+   98  cd 2.6.32-21-generic/
+   99  ls
+  100  cd /var/
+  101  ls
+  102  cd log
+  103  ls
+  104  cat syslog 
+  105  cat syslog | grep hello
+  106  cat syslog |grep good
+  107  cat syslog | grep hello
+  108  cat syslog | grep h
+  109  cat syslog | grep hell
+  110  ls
+  111  cat kern | grep hello
+  112  cat kern.log | grep hello
+  113  cat user.log | grep hello
+  114  cat * | grep hello
+  115  cat * | grep 
+  116  cat * | grep hello
+  117  cat * | grep hello,
+  118  cat * | grep hello,worle
+  119  cat * | grep hello,worl
+  120  ls -l |grep messages 
+  121  ls
+  122  cat messages | grep hello,worl
+  123  cd installer/
+  124  ls
+  125  cat * | grep hello,worl
+  126  sudo cat * | grep hello,worl
+  127  sudo cat * | grep hello,world
+  128  sudo cat * | grep hello
+  129  exit
+  130  cd mnt
+  131  ls
+  132  cd /
+  133  cd mnt/
+  134  ls
+  135  cd 
+  136  cd ocu
+  137  cd Documents/
+  138  cd vmware-tools-distrib/
+  139  ls
+  140  ./vmware-install.pl 
+  141  sudo ./vmware-install.pl 
+  142  cd /mnt
+  143  ls
+  144  cd hgfs/
+  145  ls
+  146  cd share/
+  147  ls
+  148  find bzmage
+  149  cd ..
+  150  cd /
+  151  cd 
+  152  cd Documents/
+  153  ls
+  154  cd buildroot-2017.11/
+  155  ls
+  156  make menuconfig
+  157  sudo make menuconfig
+  158  ls
+  159  make menuconfig
+  160  sudo apt-get install ncurses
+  161  sudo apt-get install ncurses-devel
+  162  make menuconfig
+  163  sudo apt-get install libncurses5-dev
+  164  make menuconfig
+  165  ake
+  166  make
+  167  g++
+  168  sudo apt-get install g++
+  169  make
+  170  cd output/
+  171  ls
+  172  cd images/
+  173  ls
+  174  cd ..
+  175  cd target/
+  176  ls
+  177  cd ..
+  178  cd build/
+  179  ls
+  180  cd ..
+  181  cd host/
+  182  ls
+  183  cd ..
+  184  ls
+  185  rm -rf buildroot-2017.11
+  186  ls
+  187  cd /mnt
+  188  ls
+  189  cd hgfs/
+  190  cd share/
+  191  ls
+  192  cp hello.c /home/ksance/driver_workspace/
+  193  cp Makefile /home/ksance/driver_workspace/
+  194  cd 
+  195  cd driver_workspace/
+  196  ls
+  197  make
+  198  vim Makefile 
+  199  make
+  200  ls
+  201  vim Makefile 
+  202  cd module_param/
+  203  cp /mnt/hgfs/share/Makefile  .
+  204  ;s
+  205  ls
+  206  vim Makefile 
+  207  ls
+  208  mkdir include
+  209  mv add_sub.h include/
+  210  ls
+  211  mkdir
+  212  mkdir add_sub
+  213  mv add_sub.c add_sub
+  214  ;s
+  215  ls
+  216  cd ..
+  217  cd module_param/
+  218  ls
+  219  cd add_sub/
+  220  ls
+  221  vim add_sub.c 
+  222  cd ..
+  223  mv Makefile add_sub/
+  224  cd add_sub/
+  225  vim Makefile 
+  226  make
+  227  ls
+  228  rmmod hello
+  229  sudo rmmod hello
+  230  lsmod | grep hello
+  231  sudo insmod add_sub.ko 
+  232  lsmod | grep add_sub
+  233  cd ..
+  234  mkdir test
+  235  cp /mnt/hgfs/share/test/test.c  ./test/
+  236  cp /mnt/hgfs/share/test/Makefile  ./test/
+  237  cd test/
+  238  ls
+  239  vim Makefile 
+  240  make
+  241  ls
+  242  sudo insmod test.ko 
+  243  sudo insmod test.ko  a=2 b=3 AddOrSub=2
+  244  cd ..
+  245  ls
+  246  cd test/
+  247  ls
+  248  vim test.c
+  249  make
+  250  cd ..
+  251  cd test/
+  252  ls
+  253  mv test.c oldtest.c
+  254  mv ../test.c  .
+  255  ls
+  256  vim test.c
+  257  make
+  258  ls
+  259  sudo insmod test.ko
+  260  lsmod | grep add_sub
+  261  sudo insmod test.ko a=3 b=2 AddOrSub=2
+  262  vim test.c
+  263  vim Makefile 
+  264  mak
+  265  make
+  266  sudo insmod test.ko a=3 b=2 AddOrSub=2
+  267  cd ..
+  268  ls
+  269  test init
+  270  cd test
+  271  test init
+  272  dmesg
+  273  cd ..
+  274  cd add_sub/
+  275  ls
+  276  vim add_sub.c
+  277  cd ..
+  278  cd test/
+  279  ls
+  280  vim test.c
+  281  make
+  282  sudo insmod test.ko a=3 b=2 AddOrSub=2
+  283  dmesg
+  284  cd ../add_sub/
+  285  ls
+  286  vim add_sub.c
+  287  make
+  288  ls
+  289  cd ../include/
+  290  cp add_sub.h ../add_sub/
+  291  cd ..
+  292  cd add_sub/
+  293  make
+  294  sudo rmmod add_sub 
+  295  sudo insmod add_sub.ko
+  296  cd ..
+  297  cd test/
+  298  ls
+  299  make
+  300  sudo insmod test.ko 
+  301  sudo insmod test.ko a=3 b=2 AddOrSub=2  
+  302  dmesg
+  303  clear
+  304  sudo insmod test.ko a=3 b=2 AddOrSub=2  
+  305  ls
+  306  cat Module.symvers 
+  307  vim Makefile 
+  308  make
+  309  ls
+  310  cat Module.symvers 
+  311  vim Makefile 
+  312  make
+  313  cat Module.symvers 
+  314  sudo insmod test.ko a=3 b=2 AddOrSub=2  
+  315  vim Makefile 
+  316  cd ..
+  317  cd add_sub/
+  318  ls
+  319  cat Module.symvers 
+  320  cd ..
+  321  cd test/
+  322  make
+  323  sudo insmod test.ko a=3 b=2 AddOrSub=2  
+  324  dmesg
+  325  cd ..
+  326  history >history_command

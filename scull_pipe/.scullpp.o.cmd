@@ -1,0 +1,1 @@
+cmd_/home/ksance/driver_workspace/scull_pipe/scullpp.o := ld -m elf_x86_64   -r -o /home/ksance/driver_workspace/scull_pipe/scullpp.o /home/ksance/driver_workspace/scull_pipe/main.o /home/ksance/driver_workspace/scull_pipe/pipe.o 

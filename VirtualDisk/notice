@@ -1,0 +1,6 @@
+ to know after make (Makefile)
+has to create device node(baidu:chuangjianshebeijiedian)
+and use sudo mknod /dev/VirtualDisk c 200 0
+after insmod (c :is the character ; d:is the block;200 is the major device num
+can use cat /proc/devices  to get ; 0 is the slave num)
+ and then use sudo ./a.out to test

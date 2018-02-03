@@ -9,5 +9,5 @@ mean:   module_name used_mem reference_num fengefu active_status load_address
 but in /proc/devices cannot see change because it isnot a device
 but in /sys/moudle/ path can see a hello content which include some layer kernel module attribute. 
      eg: cd /sys/module
-         tree -a hello
+         tree -a hello        can see more info  
 

@@ -1,0 +1,17 @@
+obj-m := test.o
+KERNELDIR ?= /lib/modules/2.6.32-21-generic/build
+PWD := $(shell pwd)
+SYMBOL_INC = $(obj)/../include  //means include func content ,that is in ../include has .h file which declare func used
+EXTRA_CFLAGS += -I $(SYMBOL_INC) //means will include which .h content
+KBUILD_EXTRA_SYMBOLS=$(obj)/../add_sub/Module.symvers //where the symbol table is 
+
+modules:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+
+modules_install:
+	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+
+clean:
+	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions
+
+.PHONY: modules modules_install clean

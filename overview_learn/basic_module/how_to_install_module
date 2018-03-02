@@ -1,0 +1,11 @@
+linux offer modutils tools to operate modules:
+  the  modutils tool include:
+insmod:install modules
+    eg:insmod hello.ko (will run hello_init())
+    can see log in /var/log/message or dmesg|tail
+    detail insmod x.ko arg1=value1 arg2=value2.../no ,
+rmmod:remove modules
+   eg:rmmod hello.ko(will run hello_exit())
+modprobe:a pro insmod and rmmod command can deal dependence
+lsmod:can list modules that insmod
+modinfl:can search modules info like author

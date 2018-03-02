@@ -1,0 +1,53 @@
+#include<linux/init.h>
+#include<linux/module.h>
+MODULE_LICENSE("Dual BSD/GPL");
+MODULE_AUTHOR("DD");
+MOUDLE_DESCRIPTION("XX");
+MODULE_VERSION("v1.0");
+----------/*when use moudle arg and func from other module*/---------------
+/*note arg type can be :byte,short ushort,int uint,long uong bool charp(char point)*/
+/*the add_integer func see add_sub file and its Makefile */
+/*to see how to make see symbol_table_use_Makefile*/
+static long a=1;      
+static int b=2;
+static int AddOrSub=1;
+static int test_init(void)
+{
+    long result=0;
+    if(1==AddOrSub) 
+    {
+      result=add_integer(a,b);// from other modules
+    } 
+    else  result=sub_integer(a,b);//from other modules
+    return 0;
+}
+static void test_init()
+{
+}
+module_init(test_init);
+moudle_exit(test_exit);
+module_param(a,long,S_IRUGO);
+module_param(b,int,S_IRUGO);
+module_param(AddOrSub,int,S_IRUGO);
+//test:insmod add_sub.ko 
+//     insmod test.ko a=2 b=3 AddOrsub=2 
+//     dmesg | tail
+//     tree -a test
+-----------/*when use module arg and func from other moudle*/----------------
+
+
+
+
+static int hello_init(void)
+{
+   printk(KERN_ALERT"hello,world\n");
+   return 0;
+}
+static void hello_exit(void)
+{
+ printk(KERN_ALERT"goodbye,world\n");
+ }
+mudule_init(hello_init);
+module_exit(hello_exit);
+
+

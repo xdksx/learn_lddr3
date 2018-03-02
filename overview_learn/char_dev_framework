@@ -1,0 +1,202 @@
+-----------first:to add .h----------------
+//#include <linux/config.h>
+#include <linux/module.h>
+#include <linux/moduleparam.h>
+#include <linux/init.h>
+
+#include <linux/kernel.h>	/* printk() */
+#include <linux/slab.h>		/* kmalloc() */
+#include <linux/fs.h>		/* everything... */ //register_chrdev_region
+#include <linux/errno.h>	/* error codes */
+#include <linux/types.h>	/* size_t */
+#include <linux/proc_fs.h>
+#include <linux/fcntl.h>	/* O_ACCMODE */
+#include <linux/seq_file.h>
+#include <linux/cdev.h>
+
+#include <asm/system.h>		/* cli(), *_flags */
+#include <asm/uaccess.h>	/* copy_*_user */
+
+#include "scull.h"		/* local definitions */
+---------------and set some var---------------------------------
+int scull_major =   SCULL_MAJOR;
+int scull_minor =   0;
+int scull_nr_devs = SCULL_NR_DEVS;	/* number of bare scull devices */
+int scull_quantum = SCULL_QUANTUM;
+int scull_qset =    SCULL_QSET;
+
+module_param(scull_major, int, S_IRUGO);
+module_param(scull_minor, int, S_IRUGO);
+module_param(scull_nr_devs, int, S_IRUGO);
+module_param(scull_quantum, int, S_IRUGO);
+module_param(scull_qset, int, S_IRUGO);
+
+MODULE_AUTHOR("Alessandro Rubini, Jonathan Corbet");
+MODULE_LICENSE("Dual BSD/GPL");
+---------------------second:to add devices struct and register dev num-------------------
+1)to get major_dev_number and minor number:
+   struct:
+   typedef u_long dev_t;
+   u_long:in 32 device:4byte;in 64 device : 8byte
+   ex:in 32:  major num:12bit  minor num:20 ----comprise dev_t
+   some API:
+   #define MINORMASK ...
+   #define MAJOR(dev) //TO GET MAJOR NUM BY MOVE 20 BIT 
+   #define MINOR(dev)
+
+   two way to get dev_t:
+   a:static ,depend on you:will conflict 
+     you can use documentation/devices.txt to ensure now used dev_t to avoid conflict;
+   b:dynamic:use alloc_chrdev_region...
+
+ 2)  ex:***************************************************************************
+     in scull.h:
+     #ifndef SCULL_MAJOR
+     #define SCULL_MAJOR 0   /* dynamic major by default */
+     #endif
+     and in xx.c
+     scull_major=SCULL_MAJOR
+     scull_minor=0
+/*
+ * Get a range of minor numbers to work with, asking for a dynamic
+ * major unless directed otherwise at load time.
+ */
+	if (scull_major) {//in static way
+		dev = MKDEV(scull_major, scull_minor);//will make a dev_t according scull_major and scull_minor
+		result = register_chrdev_region(dev, scull_nr_devs, "scull");//to register a dev_t 
+//dev--a dev_t that minor==0 scull_nr_devs--count of devicenum "scull"--device name
+	} else {
+		result = alloc_chrdev_region(&dev, scull_minor, scull_nr_devs,//dynamic way will return dev_t
+				"scull");
+		scull_major = MAJOR(dev);//get major num 
+	}
+	if (result < 0) {
+		printk(KERN_WARNING "scull: can't get major %d\n", scull_major);
+		return result;
+.....
+to unregister:
+dev_t devno = MKDEV(scull_major, scull_minor);
+/* cleanup_module is never called if registering failed */
+	unregister_chrdev_region(devno, scull_nr_devs);
+you can do above in xx_init() and xx_exit()
+
+***********************************************************************************
+
+------------------------third:add cdev and alloc and register------------------------------
+1)intr cdev:
+struct cdev{//in kernel define
+struct kobject kobj;
+struct module *owner;
+const struct file_operations *ops;//to oper hardware
+struct list_head list;
+dev_t dev;
+unsigned int count;
+};
+//meaning can see book or doc
+2)how to use:
+-----a: define your own xx_dev:
+ex:
+in scull.h:
+struct scull_dev {
+        struct scull_qset *data;  /* Pointer to first quantum set */
+        int quantum;              /* the current quantum size */
+        int qset;                 /* the current array size */
+        unsigned long size;       /* amount of data stored here */
+        unsigned int access_key;  /* used by sculluid and scullpriv */
+        struct semaphore sem;     /* mutual exclusion semaphore     */
+        struct cdev cdev;         /* Char device structure              */----must
+};
+in scull.c:
+-----b:setup the xx_dev:
+struct scull_dev *scull_devices;	/* allocated in scull_init_module */
+/*
+ * Set up the char_dev structure for this device.
+ */
+static void scull_setup_cdev(struct scull_dev *dev, int index)
+{
+	int err, devno = MKDEV(scull_major, scull_minor + index);
+    //init:
+	cdev_init(&dev->cdev, &scull_fops);
+	dev->cdev.owner = THIS_MODULE;
+	dev->cdev.ops = &scull_fops;
+   //register:
+	err = cdev_add (&dev->cdev, devno, 1);
+	/* Fail gracefully if need be */
+	if (err)
+		printk(KERN_NOTICE "Error %d adding scull%d", err, index);
+}
+
+//to unsetup:
+cdev_del(&xx_dev.cdev);
+
+-----c:file_operation:
+in scull.c:
+struct file_operations scull_fops = {
+        .owner =    THIS_MODULE,
+        .llseek =   scull_llseek,
+        .read =     scull_read,
+        .write =    scull_write,
+        //.ioctl =    scull_ioctl,
+        .open =     scull_open,
+        .release =  scull_release,
+};
+
+------------------------------------------------------------------------
+
+int scull_open(struct inode *inode, struct file *filp)
+{
+	struct scull_dev *dev; /* device information */
+
+	dev = container_of(inode->i_cdev, struct scull_dev, cdev);
+	filp->private_data = dev; /* for other methods */
+
+	/* now trim to 0 the length of the device if open was write-only */
+	if ( (filp->f_flags & O_ACCMODE) == O_WRONLY) {
+		if (down_interruptible(&dev->sem))//add lock
+			return -ERESTARTSYS;
+		scull_trim(dev); /* ignore errors */
+		up(&dev->sem);//release lock
+	}
+	return 0;          /* success */
+}
+
+int scull_release(struct inode *inode, struct file *filp)
+{
+	return 0;
+
+ssize_t scull_read(struct file *filp, char __user *buf, size_t count,
+                loff_t *f_pos)
+{
+	struct scull_dev *dev = filp->private_data; 
+	struct scull_qset *dptr;	/* the first listitem */
+	if (copy_to_user(buf, dptr->data[s_pos] + q_pos, count)) {//参数2传递的是起始位置
+		retval = -EFAULT;
+}
+
+ssize_t scull_write(struct file *filp, const char __user *buf, size_t count,
+                loff_t *f_pos)
+{
+	struct scull_dev *dev = filp->private_data;
+	struct scull_qset *dptr;
+		count = quantum - q_pos;
+
+	if (copy_from_user(dptr->data[s_pos]+q_pos, buf, count)) {
+		retval = -EFAULT;
+		goto out;
+......
+}
+loff_t scull_llseek(struct file *filp, loff_t off, int whence)
+{
+	struct scull_dev *dev = filp->private_data;
+	loff_t newpos;
+
+	switch(whence) {
+	  case 0: /* SEEK_SET from the begin*/
+		newpos = off;
+		break;
+
+	  case 1: /* SEEK_CUR from the current offset in filp*/
+		newpos = filp->f_pos + off;
+
+....
+}

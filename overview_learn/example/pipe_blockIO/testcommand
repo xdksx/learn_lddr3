@@ -1,0 +1,4 @@
+在一个终端窗口上运行cat /dev/pipee0，因为缓冲区中没有可读内容，所以cat操作会休眠等待
+然后在另外一个终端窗口上执行echo “hello” > /dev/pipee0，将hello写入pipee0，可以看到cat进程会被唤醒，读出并打印”hello”。再次执行ls work/ >/dev/pipee0，会把work目录下的内容写入/dev/pipee0，同时，cat会被再次唤醒并打印输出work目录下的内容
+
+also can write a program to test 

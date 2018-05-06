@@ -1,0 +1,1 @@
+sudo make -C /lib/modules/2.6.32-21-generic/build M=$PWD modules_install

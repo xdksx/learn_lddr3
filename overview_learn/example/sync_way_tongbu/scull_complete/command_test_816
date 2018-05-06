@@ -1,0 +1,22 @@
+
+  814  ls
+  815  vim scull_load
+  816  vim scull_unload
+  817  vim Makefile 
+  818  make
+  819  ls
+  820  ls /dev/complete
+  821  sudo ./scull_load 
+  822  ls
+  823  ls -l
+  824  chmod u+x scull_*
+  825  ls
+  826  ls -l
+  827  sudo ./scull_load 
+  828  ls /dev/complete
+  829  dmesg
+  830  cat /dev/complete&
+  831  dmesg
+  832  ls >/dev/complete 
+  833  dmesg
+  834  history >command_test

@@ -1,0 +1,9 @@
+ this is a simplest hello 
+   use "make" to create ko
+   use "sudo insmod hello.ko" to insmod modules
+   use "dmesg |tail "to see printk
+   use "sudo rmmod hello.ko" to rm mod modules
+  
+
+when insmod  ,the hello_init will run 
+when rmmod ,the hello_exit will run  

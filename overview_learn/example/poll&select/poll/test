@@ -1,0 +1,34 @@
+.
+
+
+first use pipee 
+./scull_load
+
+
+a terminal 
+/a.out  read
+/dev/pipee0 is readable!
+a.out
+polltest.c
+
+/dev/pipee1 is readable!
+a.out
+polltest.c
+
+/dev/pipee2 is readable!
+a.out
+polltest.c
+
+/dev/pipee3 is readable!
+a.out
+polltest.c
+
+
+
+another terminal
+ls >/dev/pipee0
+ksance@ksance-desktop:~/driver_workspace/poll$ ls >/dev/pipee1
+ksance@ksance-desktop:~/driver_workspace/poll$ ls >/dev/pipee2
+ksance@ksance-desktop:~/driver_workspace/poll$ ls >/dev/pipee3
+ksance@ksance-desktop:~/driver_workspace/poll$ 
+

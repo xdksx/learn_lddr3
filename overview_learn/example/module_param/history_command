@@ -1,0 +1,14 @@
+in add_sub/
+  make
+  
+
+in test/
+  make
+
+in add_sub/
+   //test:insmod add_sub.ko 
+in test/
+//     insmod test.ko a=2 b=3 AddOrsub=2 
+//     dmesg | tail
+//     tree -a test
+   

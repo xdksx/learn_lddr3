@@ -1,1 +1,0 @@
-cmd_/home/ksance/driver_workspace/module_param/test/test.ko := ld -r -m elf_x86_64 -T /usr/src/linux-headers-2.6.32-21-generic/scripts/module-common.lds --build-id -o /home/ksance/driver_workspace/module_param/test/test.ko /home/ksance/driver_workspace/module_param/test/test.o /home/ksance/driver_workspace/module_param/test/test.mod.o
